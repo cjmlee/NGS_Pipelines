@@ -1,0 +1,58 @@
+---
+title: "rnaseq pipeline"
+author: "Mick Lee and Wilson Tan" 
+---
+
+This pipeline will take in paired-end FASTQ files, and produce gene count as output.
+
+This is a general outline of the Bulk RNA-sequencing Analysis
+
+![](images/RNAseq_workflow.jpg)
+
+```{bash}}
+#!/bin/bash
+##INPUT ARGUMENT (DO NOT EDIT)
+##BASH DEFAULT USER ARGUMENT READING FROM COMMAND LINE
+SAMPLENAME=$1
+FASTQ_READ1=$2
+FASTQ_READ2=$3
+GENOME=$4
+
+
+#AFTER TRIMMING (DO NOT EDIT)
+TF1=$(echo $(basename $FASTQ_READ1) | sed 's/.fastq.gz//')"_val_1.fq.gz"
+TF2=$(echo $(basename $FASTQ_READ2) | sed 's/.fastq.gz//')"_val_2.fq.gz"
+
+##EDIT DURING SETUP
+###TOOLS:
+TRIM=trim_galore
+STAR=/mnt/projects/rpd/apps/star-2.5.3a/bin/STAR
+HTSEQCOUNT=/mnt/software/bin/htseq-count
+SAMTOOLS=/mnt/bin/software
+
+###DATABASE/ANNOTATION:
+ADAPTOR=/mnt/projects/wlwtan/cardiac_epigenetics/foolab/jenny/mar2020/rnaseq/analysis_adaptor/illumina.fa
+STARIND="/mnt/projects/rpd/genomes/"$GENOME"/star"
+STARFASTA="/mnt/projects/rpd/genomes/"$GENOME"/"$GENOME".fa"
+GTF="/mnt/projects/rpd/genomes/"$GENOME"/gtf/"$GENOME"_annotation.gtf"
+
+###PARAMETERS:
+THREAD=4
+
+
+##ACTUAL COMMANDS:
+
+mkdir $SAMPLENAME
+cd $SAMPLENAME
+
+## Trimming of adaptors and base quality
+$TRIM --fastqc --gzip --length 100 --paired $FASTQ_READ1 $FASTQ_READ2
+
+## STAR alignment
+$STAR --runThreadN $THREAD --genomeDir $STARIND --readFilesCommand zcat --outFileNamePrefix RNASEQ --outSAMtype BAM Unsorted --readFilesIn $TF1 $TF2
+$STAR --runThreadN $THREAD --genomeDir $STARIND --sjdbFileChrStartEnd RNASEQSJ.out.tab --readFilesCommand zcat --outFileNamePrefix RNASEQ.2Pass --outSAMtype BAM Unsorted --readFilesIn $TF1 $TF2
+
+## sort the bam files by name and count by htseq-count for EdgeR/DESeq analysis
+$SAMTOOLS sort -n rnaseqtrimmedAligned.out.bam name_rnaseqtrimmedAligned.out
+$HTSEQCOUNT -f bam -r name -s no -m union name_rnaseqtrimmedAligned.out.bam $GTF > count.txt
+```

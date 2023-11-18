@@ -1,0 +1,7 @@
+---
+title: "NGS_analysis_pipelines"
+
+author: "Mick Lee"
+---
+
+This is a website for the documentation of NGS pipelines in Foo-Lab.

@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "NGS_analysis_pipelines",
+    "section": "",
+    "text": "This is a website for the documentation of NGS pipelines in Foo-Lab."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "rnaseq.html",
+    "href": "rnaseq.html",
+    "title": "rnaseq pipeline",
+    "section": "",
+    "text": "This pipeline will take in paired-end FASTQ files, and produce gene count as output.\nThis is a general outline of the Bulk RNA-sequencing Analysis\n\n#!/bin/bash\n##INPUT ARGUMENT (DO NOT EDIT)\n##BASH DEFAULT USER ARGUMENT READING FROM COMMAND LINE\nSAMPLENAME=$1\nFASTQ_READ1=$2\nFASTQ_READ2=$3\nGENOME=$4\n\n\n#AFTER TRIMMING (DO NOT EDIT)\nTF1=$(echo $(basename $FASTQ_READ1) | sed 's/.fastq.gz//')\"_val_1.fq.gz\"\nTF2=$(echo $(basename $FASTQ_READ2) | sed 's/.fastq.gz//')\"_val_2.fq.gz\"\n\n##EDIT DURING SETUP\n###TOOLS:\nTRIM=trim_galore\nSTAR=/mnt/projects/rpd/apps/star-2.5.3a/bin/STAR\nHTSEQCOUNT=/mnt/software/bin/htseq-count\nSAMTOOLS=/mnt/bin/software\n\n###DATABASE/ANNOTATION:\nADAPTOR=/mnt/projects/wlwtan/cardiac_epigenetics/foolab/jenny/mar2020/rnaseq/analysis_adaptor/illumina.fa\nSTARIND=\"/mnt/projects/rpd/genomes/\"$GENOME\"/star\"\nSTARFASTA=\"/mnt/projects/rpd/genomes/\"$GENOME\"/\"$GENOME\".fa\"\nGTF=\"/mnt/projects/rpd/genomes/\"$GENOME\"/gtf/\"$GENOME\"_annotation.gtf\"\n\n###PARAMETERS:\nTHREAD=4\n\n\n##ACTUAL COMMANDS:\n\nmkdir $SAMPLENAME\ncd $SAMPLENAME\n\n## Trimming of adaptors and base quality\n$TRIM --fastqc --gzip --length 100 --paired $FASTQ_READ1 $FASTQ_READ2\n\n## STAR alignment\n$STAR --runThreadN $THREAD --genomeDir $STARIND --readFilesCommand zcat --outFileNamePrefix RNASEQ --outSAMtype BAM Unsorted --readFilesIn $TF1 $TF2\n$STAR --runThreadN $THREAD --genomeDir $STARIND --sjdbFileChrStartEnd RNASEQSJ.out.tab --readFilesCommand zcat --outFileNamePrefix RNASEQ.2Pass --outSAMtype BAM Unsorted --readFilesIn $TF1 $TF2\n\n## sort the bam files by name and count by htseq-count for EdgeR/DESeq analysis\n$SAMTOOLS sort -n rnaseqtrimmedAligned.out.bam name_rnaseqtrimmedAligned.out\n$HTSEQCOUNT -f bam -r name -s no -m union name_rnaseqtrimmedAligned.out.bam $GTF &gt; count.txt"
+  }
+]
