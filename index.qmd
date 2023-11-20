@@ -4,6 +4,8 @@ title: "Welcome to Foo Lab / Dry Lab Computation"
 author: "Mick Lee"
 ---
 
+![](images/56055865.jpg){fig-align="left" width="151"}
+
 ## **Getting Started:**
 
 For access to Foo-Lab network drive, please inform Mick Lee (mick.lee\@u.nus.edu), or Erielle (emfv-09\@nus.edu.sg) to add you into the Foo-Lab list of members / Administrators.
@@ -26,61 +28,67 @@ Foo-Lab network drive folder will be accessible under network drive :
 
 Install cifs-utils on ubuntu:
 
-```bash
+``` bash
 sudo apt update
 sudo apt-get install cifs-utils
 ```
 
 Create a mount point in your /mnt directory:
 
-```bash
+``` bash
 sudo mkdir /mnt/uss-foolab
 ```
 
-````
+```         
 Create a credentials file - in /etc/cifs-credentials using vim or nano
-````
-```bash
+```
+
+``` bash
 sudo vi /etc/cifs-credentials
 
 username=NUSNETID
 password=NUSNETPW
 domain=nusstf
 ```
-````
+
+```         
 
 Allow special permissions to cifs-credentials
+```
 
-````         
-```bash
+``` bash
 sudo chmod 600 /etc/cifs-credentials
 ```
-````
+
+```         
 
 edit /etc/fstab file and add the following entry
+```
 
-````         
-```bash
+``` bash
 
 vi /etc/fstab
 
 //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab cifs credentials=/etc/cifs-credentials 0 0
 ```
-````
+
+```         
 
 Create folder to mount network volume in /mnt and mount all volume
+```
 
-````         
-```bash
+``` bash
 sudo mkdir /mnt/uss-foolab 
 sudo mount -a 
 ```
-````
+
+```         
 
 Otherwise try using DrvFs wsl plugin protocol :
+```
 
-````         
-```bash
+``` bash
 sudo mount -t drvfs //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab -o username=NUSNETID
 ```
-````
+
+\`\`\`\`

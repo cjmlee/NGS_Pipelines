@@ -186,6 +186,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="images/56055865.jpg" class="img-fluid figure-img" width="151"></p>
+</figure>
+</div>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started"><strong>Getting Started:</strong></h2>
 <p>For access to Foo-Lab network drive, please inform Mick Lee (mick.lee@u.nus.edu), or Erielle (emfv-09@nus.edu.sg) to add you into the Foo-Lab list of members / Administrators.</p>
@@ -213,24 +218,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">password</span><span class="op">=</span>NUSNETPW</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">domain</span><span class="op">=</span>nusstf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>
-Allow special permissions to cifs-credentials
-</code></pre>
+Allow special permissions to cifs-credentials</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chmod 600 /etc/cifs-credentials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>
-edit /etc/fstab file and add the following entry
-</code></pre>
+edit /etc/fstab file and add the following entry</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vi</span> /etc/fstab</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">//hpcnas.nus.edu.sg/uss-foolab</span> /mnt/uss-foolab cifs credentials=/etc/cifs-credentials 0 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>
-Create folder to mount network volume in /mnt and mount all volume
-</code></pre>
+Create folder to mount network volume in /mnt and mount all volume</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mkdir /mnt/uss-foolab </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mount <span class="at">-a</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>
-Otherwise try using DrvFs wsl plugin protocol :
-</code></pre>
+Otherwise try using DrvFs wsl plugin protocol :</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mount <span class="at">-t</span> drvfs //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab <span class="at">-o</span> username=NUSNETID</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>````</p>
 

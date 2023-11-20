@@ -46,14 +46,14 @@
     "href": "index.html#mounting-foo-lab-network-drive-in-nus-on-ubuntu-and-ubuntu-wsl-systems-using-cifs-utils-smb-protocol",
     "title": "Welcome to Foo Lab / Dry Lab Computation",
     "section": "Mounting Foo-Lab Network drive in NUS on Ubuntu and Ubuntu WSL systems using CIFs utils / SMB protocol",
-    "text": "Mounting Foo-Lab Network drive in NUS on Ubuntu and Ubuntu WSL systems using CIFs utils / SMB protocol\nInstall cifs-utils on ubuntu:\nsudo apt update\nsudo apt-get install cifs-utils\nCreate a mount point in your /mnt directory:\nsudo mkdir /mnt/uss-foolab\nCreate a credentials file - in /etc/cifs-credentials using vim or nano\nsudo vi /etc/cifs-credentials\n\nusername=NUSNETID\npassword=NUSNETPW\ndomain=nusstf\n\nAllow special permissions to cifs-credentials\n\nsudo chmod 600 /etc/cifs-credentials\n\nedit /etc/fstab file and add the following entry\n\n\nvi /etc/fstab\n\n//hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab cifs credentials=/etc/cifs-credentials 0 0\n\nCreate folder to mount network volume in /mnt and mount all volume\n\nsudo mkdir /mnt/uss-foolab \nsudo mount -a \n\nOtherwise try using DrvFs wsl plugin protocol :\n\nsudo mount -t drvfs //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab -o username=NUSNETID\n````"
+    "text": "Mounting Foo-Lab Network drive in NUS on Ubuntu and Ubuntu WSL systems using CIFs utils / SMB protocol\nInstall cifs-utils on ubuntu:\nsudo apt update\nsudo apt-get install cifs-utils\nCreate a mount point in your /mnt directory:\nsudo mkdir /mnt/uss-foolab\nCreate a credentials file - in /etc/cifs-credentials using vim or nano\nsudo vi /etc/cifs-credentials\n\nusername=NUSNETID\npassword=NUSNETPW\ndomain=nusstf\n\nAllow special permissions to cifs-credentials\nsudo chmod 600 /etc/cifs-credentials\n\nedit /etc/fstab file and add the following entry\n\nvi /etc/fstab\n\n//hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab cifs credentials=/etc/cifs-credentials 0 0\n\nCreate folder to mount network volume in /mnt and mount all volume\nsudo mkdir /mnt/uss-foolab \nsudo mount -a \n\nOtherwise try using DrvFs wsl plugin protocol :\nsudo mount -t drvfs //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab -o username=NUSNETID\n````"
   },
   {
     "objectID": "index.html#getting-started",
     "href": "index.html#getting-started",
     "title": "Welcome to Foo Lab / Dry Lab Computation",
-    "section": "",
-    "text": "For access to Foo-Lab network drive, please inform Mick Lee (mick.lee@u.nus.edu), or Erielle (emfv-09@nus.edu.sg) to add you into the Foo-Lab list of members / Administrators."
+    "section": "Getting Started:",
+    "text": "Getting Started:\nFor access to Foo-Lab network drive, please inform Mick Lee (mick.lee@u.nus.edu), or Erielle (emfv-09@nus.edu.sg) to add you into the Foo-Lab list of members / Administrators."
   },
   {
     "objectID": "index.html#mounting-foo-lab-network-drive-in-nus-on-window-network-drive-system",
