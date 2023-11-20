@@ -2,8 +2,20 @@
 title: "About"
 ---
 
-About this site
+This webpage is for the documentation of dry lab computation and softwares in NUS Foo-Lab \@ CVRI
 
-```{r}
-1 + 1
-```
+Visit us at:\
+Foo lab webpage : [foo-lab.sg](foo-lab.sg)\
+github website : <https://github.com/Foo-Lab>
+
+For any further queries :\
+\
+Foo-Lab Manager:\
+Louis Gan (louis.gan\@nus.edu.sg)
+
+Administrators:\
+Mick Lee (mick.lee\@u.nus.edu)
+
+Erielle (emfv-09\@nus.edu.sg)
+
+Nicholas Li (nyl12\@nus.edu.sg)

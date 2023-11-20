@@ -8,7 +8,7 @@
 
 <meta name="author" content="Mick Lee and Wilson Tan">
 
-<title>NGS_Pipelines - rnaseq pipeline</title>
+<title>NGS_Pipelines - Rnaseq pipeline</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -116,14 +150,32 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1-detailed-description-of-the-basic-pipeline" id="toc-part-1-detailed-description-of-the-basic-pipeline" class="nav-link active" data-scroll-target="#part-1-detailed-description-of-the-basic-pipeline">Part 1: Detailed Description of the basic pipeline</a></li>
+  <li><a href="#part-2-running-differential-expression-analysis-using-edger-package-using-mouse-sham-vs-tac-rna-seq-as-example" id="toc-part-2-running-differential-expression-analysis-using-edger-package-using-mouse-sham-vs-tac-rna-seq-as-example" class="nav-link" data-scroll-target="#part-2-running-differential-expression-analysis-using-edger-package-using-mouse-sham-vs-tac-rna-seq-as-example">Part 2 Running Differential Expression analysis using edgeR package (using Mouse Sham vs TAC RNA-seq as example)</a>
+  <ul class="collapse">
+  <li><a href="#input" id="toc-input" class="nav-link" data-scroll-target="#input">Input</a></li>
+  <li><a href="#command" id="toc-command" class="nav-link" data-scroll-target="#command">Command</a></li>
+  <li><a href="#r-script-you-can-copy-this-into-your-rstudio-if-you-are-not-running-on-linux-like-me.-dont-use-single_edger.r-in-that-case." id="toc-r-script-you-can-copy-this-into-your-rstudio-if-you-are-not-running-on-linux-like-me.-dont-use-single_edger.r-in-that-case." class="nav-link" data-scroll-target="#r-script-you-can-copy-this-into-your-rstudio-if-you-are-not-running-on-linux-like-me.-dont-use-single_edger.r-in-that-case.">R script (You can copy this into your RStudio if you are not running on linux like me. Dont use single_edgeR.r in that case.)</a></li>
+  <li><a href="#output-of-single_edger.r" id="toc-output-of-single_edger.r" class="nav-link" data-scroll-target="#output-of-single_edger.r">Output of single_edgeR.r</a></li>
+  </ul></li>
+  <li><a href="#part-3-pathway-enrichment-analysis" id="toc-part-3-pathway-enrichment-analysis" class="nav-link" data-scroll-target="#part-3-pathway-enrichment-analysis">Part 3: Pathway Enrichment Analysis</a>
+  <ul class="collapse">
+  <li><a href="#gene-set-enrichment-analysis-gsea" id="toc-gene-set-enrichment-analysis-gsea" class="nav-link" data-scroll-target="#gene-set-enrichment-analysis-gsea">1. Gene-set Enrichment Analysis (GSEA)</a></li>
+  <li><a href="#over-representation-analysis-enrichment-based-pathway-analysis" id="toc-over-representation-analysis-enrichment-based-pathway-analysis" class="nav-link" data-scroll-target="#over-representation-analysis-enrichment-based-pathway-analysis">2. Over-representation Analysis (Enrichment-based) Pathway analysis</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">rnaseq pipeline</h1>
+<h1 class="title">Rnaseq pipeline</h1>
 </div>
 
 
@@ -147,53 +199,615 @@ ul.task-list li input[type="checkbox"] {
 <p>This pipeline will take in paired-end FASTQ files, and produce gene count as output.</p>
 <p>This is a general outline of the Bulk RNA-sequencing Analysis</p>
 <p><img src="images/RNAseq_workflow.jpg" class="img-fluid"></p>
-<pre class="{bash}}"><code>#!/bin/bash
-##INPUT ARGUMENT (DO NOT EDIT)
-##BASH DEFAULT USER ARGUMENT READING FROM COMMAND LINE
-SAMPLENAME=$1
-FASTQ_READ1=$2
-FASTQ_READ2=$3
-GENOME=$4
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">## For Alignment to Count Files ##</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#FASTQ FILE R1 $F1; R2 $F2;  </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="va">F1</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">F2</span><span class="op">=</span><span class="va">$2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">SAMPLE</span><span class="op">=</span><span class="va">$3</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">##STAR alignment: align fastq files to genome</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">###Parameters:</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="va">STAR</span><span class="op">=</span>/mnt/projects/rpd/apps/star-2.5.3a/bin/STAR  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="va">THREAD</span><span class="op">=</span>1  </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="va">STARIND</span><span class="op">=</span>/mnt/projects/rpd/genomes/mm9/star  </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="va">STARFASTA</span><span class="op">=</span>/mnt/projects/rpd/genomes/mm9/mm9.fa  </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">GTF</span><span class="op">=</span>/mnt/projects/rpd/genomes/mm9/gtf/mm9_annotation.gtf  </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="va">$SAMPLE</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="va">$SAMPLE</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> /mnt/projects/wlwtan/cardiac_epigenetics/pipeline/trimmomatics/Trimmomatic-0.39/trimmomatic-0.39.jar PE <span class="va">$F1</span> <span class="va">$F2</span> read1.fastq.gz read1.un.fastq.gz read2.fastq.gz read2.un.fastq.gz ILLUMINACLIP:illumina.fa:2:30:10 LEADING:28 TRAILING:28 SLIDINGWINDOW:4:28 MINLEN:100</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="va">$STAR</span> <span class="at">--runThreadN</span> <span class="va">$THREAD</span> <span class="at">--outFileNamePrefix</span> rnaseqtrimmed <span class="at">--outSAMtype</span> BAM Unsorted <span class="at">--genomeDir</span> <span class="va">$STARIND</span> <span class="at">--readFilesCommand</span> zcat <span class="at">--readFilesIn</span> read1.fastq.gz read2.fastq.gz</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-n</span> rnaseqtrimmedAligned.out.bam name_rnaseqtrimmedAligned.out</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/software/bin/htseq-count</span> <span class="at">-f</span> bam <span class="at">-r</span> name <span class="at">-s</span> no <span class="at">-m</span> union name_rnaseqtrimmedAligned.out.bam <span class="va">$GTF</span> <span class="op">&gt;</span> count.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="part-1-detailed-description-of-the-basic-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-detailed-description-of-the-basic-pipeline">Part 1: Detailed Description of the basic pipeline</h2>
+<section id="trimming-of-the-reads-before-mapping" class="level4">
+<h4 class="anchored" data-anchor-id="trimming-of-the-reads-before-mapping">1. <strong>Trimming of the reads before mapping</strong></h4>
+<pre><code>java -jar trimmomatic-0.39.jar PE $F1 $F2 read1.fastq.gz read1.un.fastq.gz read2.fastq.gz read2.un.fastq.gz ILLUMINACLIP:illumina.fa:2:30:10 LEADING:28 TRAILING:28 SLIDINGWINDOW:4:28 MINLEN:100</code></pre>
+<p>Input files:</p>
+<pre><code>a. F1 = FASTQ File Read 1  
+b. F2 = FASTQ File Read 2  </code></pre>
+<p>The details on various parameters can be found <a href="http://www.usadellab.org/cms/?page=trimmomatic">here</a>.</p>
+<p>This command trim the reads:<br>
+a. base quality<br>
+b. adaptors / index</p>
+<p>Running LOG:</p>
+<pre><code>Using Medium Clipping Sequence: 'AGATCGGAAGAGCACACGTCT'  
+Using Medium Clipping Sequence: 'CTGTCTCTTATACACATCT'  
+Using Long Clipping Sequence: 'CTGTCTCTTATACACATCT+AGATGTGTATAAGAGACAG'  
+Using Long Clipping Sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCA'  
+Using Short Clipping Sequence: 'AGATCGGAAGAG'  
+Using Long Clipping Sequence: 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'  
+Using Long Clipping Sequence: 'AGATCGGAAGAGCACACGTCTGAAC'  
+Using Long Clipping Sequence: 'AGATCGGAAGAGCGTCGTGTAGGGA'  
+Using Medium Clipping Sequence: 'TGGAATTCTCGGGTGCCAAGG'  
+ILLUMINACLIP: Using 0 prefix pairs, 9 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences  
+Quality encoding detected as phred33  
+Input Read Pairs: 57690695 Both Surviving: 40872736 (70.85%) Forward Only Surviving: 9407255 (16.31%) Reverse Only Surviving: 1621021 (2.81%) Dropped: 5789683 (10.04%)  
+TrimmomaticPE: Completed successfully  </code></pre>
+</section>
+<section id="mapping-of-sequencing-reads" class="level4">
+<h4 class="anchored" data-anchor-id="mapping-of-sequencing-reads">2. <strong>Mapping of sequencing reads</strong></h4>
+<pre><code>star --runThreadN $THREAD --outFileNamePrefix rnaseqtrimmed --outSAMtype BAM Unsorted --genomeDir $STARIND --readFilesCommand zcat --readFilesIn read1.fastq.gz read2.fastq.gz  </code></pre>
+<p>Input files:</p>
+<pre><code>a. read1.fastq.gz (trimmed fastq file R1)  
+b. read2.fastq.gz (trimmed fastq file R2)  
+c. $STARIND = indices required for the mapping of sequencing reads.  </code></pre>
+<p>The details on various parameters can be found <a href="https://github.com/alexdobin/STAR">here</a>.</p>
+<p>Running LOG:</p>
+<pre><code>Mar 13 23:10:09 ..... started STAR run  
+Mar 13 23:10:10 ..... loading genome  
+Mar 13 23:11:59 ..... started mapping  
+Mar 14 02:11:40 ..... finished successfully  </code></pre>
+</section>
+<section id="generation-of-raw-gene-count-using-htseq-count" class="level4">
+<h4 class="anchored" data-anchor-id="generation-of-raw-gene-count-using-htseq-count">3. <strong>Generation of RAW gene count using htseq-count</strong></h4>
+<pre><code>/mnt/software/bin/htseq-count -f bam -r name -s no -m union name_rnaseqtrimmedAligned.out.bam $GTF &gt; count.txt  </code></pre>
+<p>Input files:</p>
+<pre><code>a. BAM file (sorted by read name / position )  
+b. GTF files  </code></pre>
+<p>Output file (you need this for most analysis)</p>
+<pre><code>Filename: count.txt (gene count needed for EdgeR / DESeq)  
+Format:  
+&lt;Gene ID&gt; &lt;unnormalized count&gt;  
+Example:
+ENSMUSG00000093369.1    0  
+ENSMUSG00000093370.1    3  
+ENSMUSG00000093371.1    15  
+ENSMUSG00000093373.1    0  
+ENSMUSG00000093374.1    0  
+__no_feature    9269724  
+__ambiguous 97362  
+__too_low_aQual 0  
+__not_aligned   0  
+__alignment_not_unique  3113139  </code></pre>
+<p>Description of the last 5 lines of each files:<br>
+__no_feature: reads (or read pairs) which could not be assigned to any feature<br>
+__ambiguous: reads (or read pairs) which could have been assigned to more than one feature<br>
+__too_low_aQual: reads (or read pairs) which were skipped due to the -a option<br>
+__not_aligned: reads (or read pairs) in the SAM file without alignment<br>
+__alignment_not_unique: reads (or read pairs) with more than one reported alignment.</p>
+<p>Running LOG:</p>
+<pre><code>...  
+31700000 SAM alignment record pairs processed.  
+31800000 SAM alignment record pairs processed.  
+31900000 SAM alignment record pairs processed.  
+32000000 SAM alignment record pairs processed.  
+32100000 SAM alignment record pairs processed.  
+32200000 SAM alignment record pairs processed.  
+32300000 SAM alignment record pairs processed.  
+32400000 SAM alignment record pairs processed.  
+32500000 SAM alignment record pairs processed.  
+32600000 SAM alignment record pairs processed.  
+32700000 SAM alignment record pairs processed.  
+32800000 SAM alignment record pairs processed.  
+32889607 SAM alignment pairs processed.  </code></pre>
+<p><br><br>
+<br></p>
+</section>
+</section>
+<section id="part-2-running-differential-expression-analysis-using-edger-package-using-mouse-sham-vs-tac-rna-seq-as-example" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-running-differential-expression-analysis-using-edger-package-using-mouse-sham-vs-tac-rna-seq-as-example">Part 2 Running Differential Expression analysis using edgeR package (using Mouse Sham vs TAC RNA-seq as example)</h2>
+<p>The differential analysis starts here:</p>
+<pre><code>Rscript-3.5.1 edgeR.r &lt;control group&gt; &lt; treatment group&gt;  </code></pre>
+<section id="input" class="level3">
+<h3 class="anchored" data-anchor-id="input">Input</h3>
+<p>Input file: countfile.txt (hard-coded for now)<br>
+This file is a tab-delimited text file with 3 columns. Header is optional.<br>
+| Column | Description | | ——– | ———– | | Column 1 | full path to the count file generated by htseq-count | | Column 2 | sample id | | Column 3 | condition/grouping information used for DE analysis |</p>
+<p>Example countfile.txt:<br>
+| countfile | sampleid | group | | — | — | — | | RMH3869_count.txt | RMH3869 | TAC | | RMH3871_count.txt | RMH3871 | SHAM | | RMH3872_count.txt | RMH3872 | TAC | | RMH3874_count.txt | RMH3874 | SHAM | | RMH3875_count.txt | RMH3875 | TAC | | RMH3877_count.txt | RMH3877 | SHAM |</p>
+</section>
+<section id="command" class="level3">
+<h3 class="anchored" data-anchor-id="command">Command</h3>
+<p>I usualy run my R script on linux command line. You can also modify the script to make it work on Rstudio or any IDE.<br>
+The command line will require two user arguments for this particular script. These arguments are the sample groupings. In my case, it will be SHAM and TAC.<br>
+I am using R version 3.5.1.</p>
+<pre><code>Rscript-3.5.1 single_edgeR.r SHAM TAC</code></pre>
+<p><br></p>
+</section>
+<section id="r-script-you-can-copy-this-into-your-rstudio-if-you-are-not-running-on-linux-like-me.-dont-use-single_edger.r-in-that-case." class="level3">
+<h3 class="anchored" data-anchor-id="r-script-you-can-copy-this-into-your-rstudio-if-you-are-not-running-on-linux-like-me.-dont-use-single_edger.r-in-that-case.">R script (You can copy this into your RStudio if you are not running on linux like me. Dont use single_edgeR.r in that case.)</h3>
+<p>This is the skeleton of generic edgeR analysis. You can start with this script first and slowly add/edit according to your experimental designs.</p>
+<pre><code>filelist = read.table("countfile.txt")
+names(filelist)=c("filename","sample","group")
+gene2biotype = read.table("/mnt/projects/wlwtan/cardiac_epigenetics/pipeline/rnaseq_pipeline/resource/mm9/mm9_gene2biotype.txt")  
+names(gene2biotype)=c("id","hgnc","biotype")  
+data = readDGE(file=filelist$filename,group=filelist$group,labels=filelist$sample)  
+design = model.matrix(~0+filelist$group)  
+filter = apply(data$counts,1,function(x) length(x[x&gt;5])&gt;=2)
+filtered = data$counts[ filter, ]
+y = DGEList(counts = as.matrix(filtered), group=filelist$group )  
+y = calcNormFactors(y)  
+y = estimateDisp(y, design)  
+fit = glmFit(y,design)
+lrt21 = glmLRT(fit,contrast=c(-1,1))  
+k21 = as.data.frame(topTags(lrt21,n=10000000))  
+k21$hgnc = gene2biotype$hgnc[match(rownames(k21),gene2biotype$id)]  
+k21$biotype = gene2biotype$biotype[match(rownames(k21),gene2biotype$id)]  
+write.table(k21,file="de_SHAM_TAC.txt",sep="\t",quote=FALSE)  
+</code></pre>
+</section>
+<section id="output-of-single_edger.r" class="level3">
+<h3 class="anchored" data-anchor-id="output-of-single_edger.r">Output of single_edgeR.r</h3>
+<p>The R script will generate a few output files.</p>
+<ol type="1">
+<li>de_SHAM_TAC.txt<br>
+This is the output of differential gene expression test performed by edgeR. Although there is no definite cut-off to define significance, I use abs(log2FC)&gt;0.5, FDR&lt;0.05 and avg FPKM&gt;1 as a cut-off for significant DEGs. The columns are:</li>
+</ol>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td>GENCODE Gene ID</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td>log2FC (Group2/Group1)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td>logCPM across the samples</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td>Test statistics (loglikelihodd)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td>P-value</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td>FDR</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td>Gene Symbol / HGNC</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td>Biotype</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9-whatever</td>
+<td>FPKM of all samples</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li><p>Scatterplot (scatterplot_withtext_SHAM_TAC.png)<br>
+One of the plots that we can look at is scatterplot that represents the correlation between the two conditions (SHAM and TAC). The x-axis in the graph below shows average FPKM of SHAM cardiomyocytes and the y-axis shows average FPKM of TAC cardiomyocytes.</p></li>
+<li><p>Unsupervised clustering based on DEGs<br>
+</p></li>
+<li><p>PCA analysis based on DEGs</p>
+<p><br></p></li>
+</ol>
+<p><br><br>
+<br></p>
+</section>
+</section>
+<section id="part-3-pathway-enrichment-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-pathway-enrichment-analysis">Part 3: Pathway Enrichment Analysis</h2>
+<section id="gene-set-enrichment-analysis-gsea" class="level3">
+<h3 class="anchored" data-anchor-id="gene-set-enrichment-analysis-gsea">1. Gene-set Enrichment Analysis (GSEA)</h3>
+<pre><code>Rscript-3.5.1 fgsea.r de_SHAM_TAC.txt</code></pre>
+<p>The analysis was done by using FGSEA R package.<br>
+GSEA analysis takes the logFC / test statistics / pvalue from all the genes in the dataset, and try to find the pathways which are differentially expressed collectively.</p>
+<p>Upregulated Pathways:</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pathway</th>
+<th style="text-align: center;">pval</th>
+<th style="text-align: center;">padj</th>
+<th style="text-align: center;">ES</th>
+<th style="text-align: center;">NES</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">GO_COLLAGEN_TRIMER</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.8466</td>
+<td style="text-align: center;">2.682</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_EXTRACELLULAR_MATRIX_COMPONENT</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.7538</td>
+<td style="text-align: center;">2.6497</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_PROTEINACEOUS_EXTRACELLULAR_MATRIX</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.7161</td>
+<td style="text-align: center;">2.6478</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_EXTRACELLULAR_STRUCTURE_ORGANIZATION</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.7128</td>
+<td style="text-align: center;">2.6383</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_EXTRACELLULAR_MATRIX_BINDING</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.8044</td>
+<td style="text-align: center;">2.6162</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_EXTRACELLULAR_MATRIX_STRUCTURAL_CONSTITUENT</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.8255</td>
+<td style="text-align: center;">2.6064</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_EXTRACELLULAR_MATRIX</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.6939</td>
+<td style="text-align: center;">2.6011</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_BASEMENT_MEMBRANE</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.7501</td>
+<td style="text-align: center;">2.5799</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_COLLAGEN_BINDING</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0079</td>
+<td style="text-align: center;">0.7807</td>
+<td style="text-align: center;">2.564</td>
+</tr>
+</tbody>
+</table>
+<p>Downregulated Pathways:</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pathway</th>
+<th style="text-align: center;">pval</th>
+<th style="text-align: center;">padj</th>
+<th style="text-align: center;">ES</th>
+<th style="text-align: center;">NES</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">GO_MITOCHONDRIAL_ATP_SYNTHESIS_COUPLED_PROTON_TRANSPORT</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0143</td>
+<td style="text-align: center;">-0.7478</td>
+<td style="text-align: center;">-2.3421</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_PROTON_TRANSPORTING_ATP_SYNTHASE_COMPLEX</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0148</td>
+<td style="text-align: center;">-0.6904</td>
+<td style="text-align: center;">-2.2669</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_BRANCHED_CHAIN_AMINO_ACID_METABOLIC_PROCESS</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0148</td>
+<td style="text-align: center;">-0.6333</td>
+<td style="text-align: center;">-2.0795</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_PHOTORECEPTOR_CELL_MAINTENANCE</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.016</td>
+<td style="text-align: center;">-0.5669</td>
+<td style="text-align: center;">-1.9882</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_MALE_MEIOSIS</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.016</td>
+<td style="text-align: center;">-0.5459</td>
+<td style="text-align: center;">-1.9145</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_NADH_DEHYDROGENASE_ACTIVITY</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0172</td>
+<td style="text-align: center;">-0.6156</td>
+<td style="text-align: center;">-2.2153</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_MITOCHONDRIAL_ELECTRON_TRANSPORT_NADH_TO_UBIQUINONE</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0179</td>
+<td style="text-align: center;">-0.6089</td>
+<td style="text-align: center;">-2.2264</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GO_NADH_DEHYDROGENASE_COMPLEX</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0179</td>
+<td style="text-align: center;">-0.5823</td>
+<td style="text-align: center;">-2.1291</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GO_FATTY_ACID_BETA_OXIDATION</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.0183</td>
+<td style="text-align: center;">-0.4836</td>
+<td style="text-align: center;">-1.8241</td>
+</tr>
+</tbody>
+</table>
+<p><br> <br></p>
+</section>
+<section id="over-representation-analysis-enrichment-based-pathway-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="over-representation-analysis-enrichment-based-pathway-analysis">2. Over-representation Analysis (Enrichment-based) Pathway analysis</h3>
+<pre><code>Rscript-3.5.1 goseq.r de_SHAM_TAC.txt  </code></pre>
+<p>The list of differentially expressed genes will be supplied to check for enrichment in a specific geneset or pathway or ontology. The package used here is GOseq. Alternatively, there are also a couple of online free tools that you can use such as David / Enrichr.</p>
+<p>Ontology terms enriched in up-regulated genes:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">category</th>
+<th style="text-align: center;">over_represented_pvalue</th>
+<th style="text-align: center;">numDEInCat</th>
+<th style="text-align: center;">numInCat</th>
+<th style="text-align: center;">term</th>
+<th style="text-align: center;">ontology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">GO_0030198</td>
+<td style="text-align: center;">1.59289631513099e-29</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">165</td>
+<td style="text-align: center;">extracellular matrix organization</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0043062</td>
+<td style="text-align: center;">7.25401577545077e-28</td>
+<td style="text-align: center;">61</td>
+<td style="text-align: center;">198</td>
+<td style="text-align: center;">extracellular structure organization</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0007155</td>
+<td style="text-align: center;">7.52728027032633e-28</td>
+<td style="text-align: center;">130</td>
+<td style="text-align: center;">786</td>
+<td style="text-align: center;">cell adhesion</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0022610</td>
+<td style="text-align: center;">1.89458381420028e-27</td>
+<td style="text-align: center;">130</td>
+<td style="text-align: center;">794</td>
+<td style="text-align: center;">biological adhesion</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0009653</td>
+<td style="text-align: center;">1.3895959294514e-21</td>
+<td style="text-align: center;">202</td>
+<td style="text-align: center;">1808</td>
+<td style="text-align: center;">anatomical structure morphogenesis</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0016477</td>
+<td style="text-align: center;">4.586619274943e-19</td>
+<td style="text-align: center;">127</td>
+<td style="text-align: center;">959</td>
+<td style="text-align: center;">cell migration</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0001525</td>
+<td style="text-align: center;">4.8894400795615e-19</td>
+<td style="text-align: center;">72</td>
+<td style="text-align: center;">391</td>
+<td style="text-align: center;">angiogenesis</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0035295</td>
+<td style="text-align: center;">5.83669120066987e-19</td>
+<td style="text-align: center;">112</td>
+<td style="text-align: center;">791</td>
+<td style="text-align: center;">tube development</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0035239</td>
+<td style="text-align: center;">9.56339723145197e-19</td>
+<td style="text-align: center;">99</td>
+<td style="text-align: center;">657</td>
+<td style="text-align: center;">tube morphogenesis</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0048870</td>
+<td style="text-align: center;">1.80505175084392e-18</td>
+<td style="text-align: center;">130</td>
+<td style="text-align: center;">1017</td>
+<td style="text-align: center;">cell motility</td>
+<td style="text-align: center;">BP</td>
+</tr>
+</tbody>
+</table>
+<p>Ontology terms enriched in down-regulated genes:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">category</th>
+<th style="text-align: center;">over_represented_pvalue</th>
+<th style="text-align: center;">numDEInCat</th>
+<th style="text-align: center;">numInCat</th>
+<th style="text-align: center;">term</th>
+<th style="text-align: center;">ontology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">GO_0044281</td>
+<td style="text-align: center;">3.98227858592603e-08</td>
+<td style="text-align: center;">71</td>
+<td style="text-align: center;">1325</td>
+<td style="text-align: center;">small molecule metabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0006635</td>
+<td style="text-align: center;">3.60003697030415e-07</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">fatty acid beta-oxidation</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0016054</td>
+<td style="text-align: center;">9.25408023716837e-07</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">154</td>
+<td style="text-align: center;">organic acid catabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0046395</td>
+<td style="text-align: center;">9.25408023716837e-07</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">154</td>
+<td style="text-align: center;">carboxylic acid catabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0009062</td>
+<td style="text-align: center;">1.15898676473624e-06</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">78</td>
+<td style="text-align: center;">fatty acid catabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0008016</td>
+<td style="text-align: center;">1.25401426261223e-06</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">137</td>
+<td style="text-align: center;">regulation of heart contraction</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0043436</td>
+<td style="text-align: center;">2.97533226290676e-06</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">668</td>
+<td style="text-align: center;">oxoacid metabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0006082</td>
+<td style="text-align: center;">3.93851000867858e-06</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">676</td>
+<td style="text-align: center;">organic acid metabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">GO_0044242</td>
+<td style="text-align: center;">4.12629854308222e-06</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: center;">cellular lipid catabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">GO_0072329</td>
+<td style="text-align: center;">4.19219279151121e-06</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">88</td>
+<td style="text-align: center;">monocarboxylic acid catabolic process</td>
+<td style="text-align: center;">BP</td>
+</tr>
+</tbody>
+</table>
 
 
-#AFTER TRIMMING (DO NOT EDIT)
-TF1=$(echo $(basename $FASTQ_READ1) | sed 's/.fastq.gz//')"_val_1.fq.gz"
-TF2=$(echo $(basename $FASTQ_READ2) | sed 's/.fastq.gz//')"_val_2.fq.gz"
-
-##EDIT DURING SETUP
-###TOOLS:
-TRIM=trim_galore
-STAR=/mnt/projects/rpd/apps/star-2.5.3a/bin/STAR
-HTSEQCOUNT=/mnt/software/bin/htseq-count
-SAMTOOLS=/mnt/bin/software
-
-###DATABASE/ANNOTATION:
-ADAPTOR=/mnt/projects/wlwtan/cardiac_epigenetics/foolab/jenny/mar2020/rnaseq/analysis_adaptor/illumina.fa
-STARIND="/mnt/projects/rpd/genomes/"$GENOME"/star"
-STARFASTA="/mnt/projects/rpd/genomes/"$GENOME"/"$GENOME".fa"
-GTF="/mnt/projects/rpd/genomes/"$GENOME"/gtf/"$GENOME"_annotation.gtf"
-
-###PARAMETERS:
-THREAD=4
-
-
-##ACTUAL COMMANDS:
-
-mkdir $SAMPLENAME
-cd $SAMPLENAME
-
-## Trimming of adaptors and base quality
-$TRIM --fastqc --gzip --length 100 --paired $FASTQ_READ1 $FASTQ_READ2
-
-## STAR alignment
-$STAR --runThreadN $THREAD --genomeDir $STARIND --readFilesCommand zcat --outFileNamePrefix RNASEQ --outSAMtype BAM Unsorted --readFilesIn $TF1 $TF2
-$STAR --runThreadN $THREAD --genomeDir $STARIND --sjdbFileChrStartEnd RNASEQSJ.out.tab --readFilesCommand zcat --outFileNamePrefix RNASEQ.2Pass --outSAMtype BAM Unsorted --readFilesIn $TF1 $TF2
-
-## sort the bam files by name and count by htseq-count for EdgeR/DESeq analysis
-$SAMTOOLS sort -n rnaseqtrimmedAligned.out.bam name_rnaseqtrimmedAligned.out
-$HTSEQCOUNT -f bam -r name -s no -m union name_rnaseqtrimmedAligned.out.bam $GTF &gt; count.txt</code></pre>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
