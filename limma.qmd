@@ -1,0 +1,222 @@
+---
+title: "Running Differential Testing using the Limma Package on Non RNA-seq Data"
+author: "Mick Lee"
+---
+
+This page is to document an example of running mass-spectrometry (Non RNA-seq data) using the LIMMA R package. For more information, please refer to the user guide: https://bioconductor.org/packages/devel/bioc/vignettes/limma/inst/doc/usersguide.pdf
+
+## **Getting Started:**
+Below is an example run for two sample analysis (Three biological replicates)
+```{r}
+###Install packages###
+require(ggplot2)
+require(gplots)
+require(RColorBrewer)
+require(scales)
+require(limma)
+require(qvalue)
+
+rm(list = ls())
+
+###Set Directory###
+setwd("C:/Users/Mick Lee/Desktop/smart_nus")
+
+##set metadata##
+filelist <- data.frame(
+  sample = c("D37_CN1", "D37_CN2", "D37_CN3", "NASH1", "NASH2", "NASH3"),
+  group = c("D37", "D37", "D37", "NASH", "NASH", "NASH"),
+  colour = c("blue", "blue", "blue", "red", "red", "red")
+)
+print(filelist)
+
+##Example of the Mass-spec data (Relative AUC from Peaks measured)##
+ms<-read.table("nash_ms.txt", header=TRUE)
+head(ms)
+```
+## **Perform transformation and normalization**
+Perform Log normalization with small offset, 4.08 is used because at 10% quantile - valued at 4.08
+```{r}
+#log normalization
+ms<-log2(ms+4.08)
+#FOR NASH group
+###At 10% quantile 4.08 stabilizes the variance ###
+quantile(ms[ms>0], 0.1)
+```
+## **Define groups and Design matrix + Differential Testing**
+Define groups (in this case D37 vs NASH), design matrix, and fit contrasts between two groups for differential testing between two groups & fitting linear regression using limma
+```{r}
+# Define the sample groups
+group <- factor(c(rep("D37", 3), rep("NASH", 3)))
+
+# Create the design matrix
+design <- model.matrix(~0 + group)
+
+# Define contrasts (comparing NASH with D37)
+contrast.matrix <- makeContrasts(
+  NASHvsD37 = groupNASH - groupD37,
+  levels = design
+)
+
+# Perform differential expression analysis using limma
+fit <- lmFit(ms, design)
+fit <- contrasts.fit(fit, contrast.matrix)
+fit <- eBayes(fit)
+fit2<- eBayes(fit, trend=TRUE)
+
+plotSA(fit2)
+```
+::: {.callout-note}
+The above variance plot which show stabilization of the variances nicely as seen from the horizontal trendline from plotSA()
+:::
+
+## **Extract, summarize the results and bind data**
+```{r}
+# Extract and summarize the results
+result<-topTable(fit, coef = "NASHvsD37", number = nrow(ms))
+
+#merge result with ms
+
+NASHvsD37<-cbind(ms,result)
+NASHvsD37$sig=NASHvsD37$adj.P.Val<0.05 & abs(NASHvsD37$logFC)>=0.5
+head(NASHvsD37)
+
+```
+
+::: {.callout-note}
+The logFC column is the slope of the regression line, and the AveExpr column is the average of the values for the protein row (same as rowMeans()). AveExpr can also be the y-intercept of the regression line when the predictor is mean-centered. The actual y-intercept is  
+**AveExpr−avg(AGE)⋅logFC**
+ . The other columns are
+        **t** moderated t-statistic
+        **P.Value** p-value
+        **adj.P.Val** p-values adjusted with the Benjamini-Hocheberg procedure
+        **B** log-odds of differential expression
+:::
+
+## **Plot PCA**
+plot PCA of samples to show unsupervised clustering based on sample data
+```{r}
+###Z-scale data###
+
+ms2 = (ms-rowMeans(ms))/apply(ms,1,sd)
+
+pca = prcomp(t(ms2),scale=TRUE,center=TRUE)
+eigs <- pca$sdev^2
+percentage_explained = eigs/sum(eigs)*100
+percentage_explained
+
+pcadata = as.data.frame(pca$x)
+pcadata$group <- c("D37", "D37", "D37", "NASH", "NASH", "NASH")
+
+pcaxl = paste("PC1(",format(round(percentage_explained[1],2),2),"%)",sep="")
+pcayl = paste("PC2(",format(round(percentage_explained[2],2),2),"%)",sep="")
+
+ggplot(pcadata,aes(x=PC1,y=PC2, label=group))+geom_point(aes(color=group),shape=18,size=2)+theme_bw()+theme(panel.grid=element_blank())+xlab(pcaxl)+ylab(pcayl)+scale_color_manual(values=c("blue","red"))+geom_text(aes(label=rownames(pcadata)),hjust=0, vjust=0, size = 3)
+
+```
+
+## **Plotting of Heatmap**
+Example plotting of heatmap to show relative expression levels using z-scaled transformed values
+
+```{r}
+hc = hclust(as.dist(1-cor(ms2,method="spearman")),method="ward.D2")
+hr = hclust(as.dist(1-cor(t(ms2),method="pearson")),method="ward.D2")
+par(mar=c(7,4,4,2)+0.1) 
+heatmap.2(as.matrix(ms2),Colv=as.dendrogram(hc),Rowv=as.dendrogram(hr),scale="none",breaks=c(seq(-2,2,by=0.04)),col=colorRampPalette(c("blue","white","orange"))(100),density.info="none",trace="none",ColSideColors=as.character(filelist$colour), cexCol = 1.5, srtCol=45, # Add vertical grid lines
+          )
+```
+## **Plotting of data using EnhancedVolcano plot**
+
+```{r}
+#| fig-height: 6
+#| fig-width: 4
+require(EnhancedVolcano)
+ymax <- max(-log10(NASHvsD37[, "adj.P.Val",]), na.rm = TRUE)
+
+EnhancedVolcano(
+  NASHvsD37,
+  lab = rownames(NASHvsD37),
+  x = 'logFC',
+  y = 'adj.P.Val',
+  title = "Significant RNA Epi-Modifications",
+  subtitle = "NASH vs D37 CMs",
+  xlim = c(-2, 2),  # Example xlim, adjust as needed
+  ylim = c(0, ymax + 1.0),
+  FCcutoff = 0.5,      # Example FCcutoff, adjust as needed
+  pCutoff = 0.05,    # Example pCutoff, adjust as needed
+  legendLabels = c('NS', 'Log2 Fold-change', 'P value', 'P value & Log2 Fold-change'),
+  legendPosition = 'bottom',
+  legendLabSize = 10,
+  legendIconSize = 5.0
+)
+
+```
+::: {.callout-note}
+One could create a new data frame for labels and use `geom_label_repel` to add 
+an additional layer for labeling an example below:
+
+ev+geom_label_repel(
+  data = labels_df,
+  aes(x = x, y = -log10(y), label = label),
+  color = "black",
+  fill = "white",
+  segment.color = "black",
+  segment.size = 0.5, # Adjust label position as needed
+)
+
+where ev is your aesthetics for ggplot/volcanoplot
+
+:::
+
+
+Session info as follows:
+```
+sessionInfo()
+R version 4.3.1 (2023-06-16 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 11 x64 (build 22621)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_Singapore.utf8  LC_CTYPE=English_Singapore.utf8    LC_MONETARY=English_Singapore.utf8
+[4] LC_NUMERIC=C                       LC_TIME=English_Singapore.utf8    
+
+time zone: Asia/Singapore
+tzcode source: internal
+
+attached base packages:
+[1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] qvalue_2.32.0          stringr_1.5.0          reshape_0.8.9          scales_1.2.1          
+ [5] goseq_1.52.0           geneLenDataBase_1.36.0 BiasedUrn_2.0.10       RColorBrewer_1.1-3    
+ [9] VennDiagram_1.7.3      futile.logger_1.4.3    gplots_3.1.3           ggplot2_3.4.2         
+[13] edgeR_3.42.4           limma_3.56.2          
+
+loaded via a namespace (and not attached):
+ [1] DBI_1.1.3                   bitops_1.0-7                formatR_1.14                biomaRt_2.56.1             
+ [5] rlang_1.1.1                 magrittr_2.0.3              matrixStats_1.0.0           compiler_4.3.1             
+ [9] RSQLite_2.3.1               mgcv_1.8-42                 GenomicFeatures_1.52.1      reshape2_1.4.4             
+[13] png_0.1-8                   vctrs_0.6.3                 pkgconfig_2.0.3             crayon_1.5.2               
+[17] fastmap_1.1.1               dbplyr_2.3.3                XVector_0.40.0              caTools_1.18.2             
+[21] utf8_1.2.3                  Rsamtools_2.16.0            bit_4.0.5                   zlibbioc_1.46.0            
+[25] cachem_1.0.8                GenomeInfoDb_1.36.1         progress_1.2.2              blob_1.2.4                 
+[29] DelayedArray_0.26.7         BiocParallel_1.34.2         parallel_4.3.1              prettyunits_1.1.1          
+[33] R6_2.5.1                    stringi_1.7.12              rtracklayer_1.60.0          GenomicRanges_1.52.0       
+[37] Rcpp_1.0.11                 SummarizedExperiment_1.30.2 IRanges_2.34.1              splines_4.3.1              
+[41] Matrix_1.6-0                tidyselect_1.2.0            rstudioapi_0.15.0           abind_1.4-5                
+[45] yaml_2.3.7                  codetools_0.2-19            curl_5.1.0                  plyr_1.8.8                 
+[49] lattice_0.21-8              tibble_3.2.1                Biobase_2.60.0              withr_2.5.0                
+[53] KEGGREST_1.40.0             lambda.r_1.2.4              BiocFileCache_2.8.0         xml2_1.3.5                 
+[57] Biostrings_2.68.1           pillar_1.9.0                filelock_1.0.2              MatrixGenerics_1.12.3      
+[61] KernSmooth_2.23-21          stats4_4.3.1                generics_0.1.3              RCurl_1.98-1.12            
+[65] S4Vectors_0.38.1            hms_1.1.3                   munsell_0.5.0               gtools_3.9.4               
+[69] glue_1.6.2                  tools_4.3.1                 BiocIO_1.10.0               locfit_1.5-9.8             
+[73] GenomicAlignments_1.36.0    XML_3.99-0.14               AnnotationDbi_1.62.2        colorspace_2.1-0           
+[77] nlme_3.1-162                GenomeInfoDbData_1.2.10     restfulr_0.0.15             cli_3.6.1                  
+[81] rappdirs_0.3.3              futile.options_1.0.1        fansi_1.0.4                 S4Arrays_1.0.5             
+[85] dplyr_1.1.2                 gtable_0.3.3                EnhancedVolcano_1.18.0      digest_0.6.33              
+[89] BiocGenerics_0.46.0         ggrepel_0.9.3               rjson_0.2.21                memoise_2.0.1              
+[93] lifecycle_1.0.3             httr_1.4.6                  GO.db_3.17.0                bit64_4.0.5
+``` 
