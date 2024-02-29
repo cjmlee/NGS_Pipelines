@@ -8,7 +8,7 @@
 
 <meta name="author" content="Mick Lee">
 
-<title>NGS_Pipelines - Welcome to Foo Lab / Dry Lab Computation</title>
+<title>NGS_Pipelines - Welcome to Foo Lab (Dry Lab) on-boarding @ NUS CVRI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -180,6 +180,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><strong>Getting Started:</strong></a></li>
   <li><a href="#mounting-foo-lab-network-drive-in-nus-on-window-network-drive-system" id="toc-mounting-foo-lab-network-drive-in-nus-on-window-network-drive-system" class="nav-link" data-scroll-target="#mounting-foo-lab-network-drive-in-nus-on-window-network-drive-system"><strong>Mounting Foo-Lab Network drive in NUS on Window network drive system</strong></a></li>
   <li><a href="#mounting-foo-lab-network-drive-in-nus-on-ubuntu-and-ubuntu-wsl-systems-using-cifs-utils-smb-protocol" id="toc-mounting-foo-lab-network-drive-in-nus-on-ubuntu-and-ubuntu-wsl-systems-using-cifs-utils-smb-protocol" class="nav-link" data-scroll-target="#mounting-foo-lab-network-drive-in-nus-on-ubuntu-and-ubuntu-wsl-systems-using-cifs-utils-smb-protocol"><strong>Mounting Foo-Lab Network drive in NUS on Ubuntu and Ubuntu WSL systems using CIFs utils / SMB protocol</strong></a></li>
+  <li><a href="#rules-of-uss-foolab-network-drive" id="toc-rules-of-uss-foolab-network-drive" class="nav-link" data-scroll-target="#rules-of-uss-foolab-network-drive"><strong>RULES of uss-foolab network drive</strong></a></li>
+  <li><a href="#how-to-deposit-in-house-next-generation-sequencing-data-under-maintainence" id="toc-how-to-deposit-in-house-next-generation-sequencing-data-under-maintainence" class="nav-link" data-scroll-target="#how-to-deposit-in-house-next-generation-sequencing-data-under-maintainence"><strong>How to Deposit In-house Next-Generation Sequencing Data (Under maintainence)</strong></a></li>
   </ul>
 </nav>
     </div>
@@ -188,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Welcome to Foo Lab / Dry Lab Computation</h1>
+<h1 class="title">Welcome to Foo Lab (Dry Lab) on-boarding @ NUS CVRI</h1>
 </div>
 
 
@@ -202,6 +204,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">1/3/24</p>
+    </div>
+  </div>
   
     
   </div>
@@ -257,6 +265,38 @@ Create folder to mount network volume in /mnt and mount all volume</code></pre>
 Otherwise try using DrvFs wsl plugin protocol :</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mount <span class="at">-t</span> drvfs //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab <span class="at">-o</span> username=NUSNETID</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>````</p>
+</section>
+<section id="rules-of-uss-foolab-network-drive" class="level2">
+<h2 class="anchored" data-anchor-id="rules-of-uss-foolab-network-drive"><strong>RULES of uss-foolab network drive</strong></h2>
+<p>Access the Foo-Lab Folder. DO NOT TOUCH the Data Storage folder (Containing Archival/legacy files) <img src="images/Foolab_Drive.jpg" class="img-fluid"></p>
+<p>Deposit your Wet / Dry Data, Figures, and Work into your respective work folder.</p>
+<p>(If you did not find your name, make a new folder with your name)</p>
+<p><img src="images/Foolab Folder.jpg" class="img-fluid"></p>
+</section>
+<section id="how-to-deposit-in-house-next-generation-sequencing-data-under-maintainence" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-deposit-in-house-next-generation-sequencing-data-under-maintainence"><strong>How to Deposit In-house Next-Generation Sequencing Data (Under maintainence)</strong></h2>
+<ol type="1">
+<li>Go to Softwares &gt;&gt; Foo Lab Data Catalog</li>
+<li>Key in your username (name) and password</li>
+</ol>
+<p><img src="images/Datacatalog1.jpg" class="img-fluid"></p>
+<ol start="3" type="1">
+<li><p>Two things to fill up (Sample Information and Experiment Information)</p>
+<p>Note: Each Experiment should be linked to One Library ID (Assigned by Novogene/Macrogen/Other Sequencing Providers), and One experiment can have multiple samples<br>
+e.g Macrogen: HNXXXXXXX or XXXXKNO-XXXX<br>
+Novogene: X401SCXXXXXXXX-Z01-F00X</p></li>
+</ol>
+<p><img src="images/Datacatalog2.jpg" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>Fill up experiment information as detailed as possible - Like how you want people to understand. An example below</li>
+</ol>
+<p><img src="images/Datacatalog4.jpg" class="img-fluid"></p>
+<ol start="4" type="1">
+<li><p>Key in all the sample information within the specified experiment.</p></li>
+<li><p>For every sample, key in the directory to your data - to the <strong>uss-foolab network drive</strong></p>
+<p><img src="images/Datacatalog5.jpg" class="img-fluid">6. Make sure your files are all there!</p>
+<p><img src=".png" class="img-fluid"><img src="images/Datacatalog3-01.jpg" class="img-fluid"></p></li>
+</ol>
 
 
 </section>

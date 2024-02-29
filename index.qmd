@@ -1,7 +1,9 @@
 ---
-title: "Welcome to Foo Lab / Dry Lab Computation"
+title: "Welcome to Foo Lab (Dry Lab) on-boarding @ NUS CVRI"
 
-author: "Mick Lee"
+author: "Mick Lee"                            
+date: "2024-01-03"
+date-format: short 
 ---
 
 ![](images/56055865.jpg){fig-align="left" width="151"}
@@ -92,3 +94,40 @@ sudo mount -t drvfs //hpcnas.nus.edu.sg/uss-foolab /mnt/uss-foolab -o username=N
 ```
 
 \`\`\`\`
+
+## **RULES of uss-foolab network drive**
+
+Access the Foo-Lab Folder. DO NOT TOUCH the Data Storage folder (Containing Archival/legacy files) ![](images/Foolab_Drive.jpg)
+
+Deposit your Wet / Dry Data, Figures, and Work into your respective work folder.
+
+(If you did not find your name, make a new folder with your name)
+
+![](images/Foolab%20Folder.jpg)
+
+## **How to Deposit In-house Next-Generation Sequencing Data (Under maintainence)**
+
+1.  Go to Softwares \>\> Foo Lab Data Catalog
+2.  Key in your username (name) and password
+
+![](images/Datacatalog1.jpg)
+
+3.  Two things to fill up (Sample Information and Experiment Information)
+
+    Note: Each Experiment should be linked to One Library ID (Assigned by Novogene/Macrogen/Other Sequencing Providers), and One experiment can have multiple samples\
+    e.g Macrogen: HNXXXXXXX or XXXXKNO-XXXX\
+    Novogene: X401SCXXXXXXXX-Z01-F00X
+
+![](images/Datacatalog2.jpg)
+
+4.  Fill up experiment information as detailed as possible - Like how you want people to understand. An example below
+
+![](images/Datacatalog4.jpg)
+
+4.  Key in all the sample information within the specified experiment.
+
+5.  For every sample, key in the directory to your data - to the **uss-foolab network drive**
+
+    ![](images/Datacatalog5.jpg)6. Make sure your files are all there!
+
+    ![]()![](images/Datacatalog3-01.jpg)
