@@ -16,6 +16,13 @@ website:
             href: http://13.212.140.246:3838/shinyABC/
           - text: Foo Lab Data Catalog
             href: http://13.214.207.18:3000/login
+      - text: In-house Data
+        menu: 
+          - text: In-house Cardiac Cell-Type Specific Epigenetic Tracks(WashU Browser)
+            href: https://tiny.one/bwm5tpu4
+          - text: In-house H3K27ac Human Left Ventricle(UCSC)
+            href: https://genome.ucsc.edu/s/cjmlee/hg19_H3K27Ac_LV
+            
     right:
       - text: Pipelines
         menu: 
