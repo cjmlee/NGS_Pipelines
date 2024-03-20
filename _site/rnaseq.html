@@ -148,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-in-house-data">    
         <li>
-    <a class="dropdown-item" href="https://tiny.one/2p985dak" rel="" target="">
+    <a class="dropdown-item" href="https://tiny.one/t9zpy2z2" rel="" target="">
  <span class="dropdown-text">In-house Cardiac Cell-Type Specific Epigenetic Tracks(WashU Browser)</span></a>
   </li>  
         <li>
@@ -388,8 +388,7 @@ lrt21 = glmLRT(fit,contrast=c(-1,1))
 k21 = as.data.frame(topTags(lrt21,n=10000000))  
 k21$hgnc = gene2biotype$hgnc[match(rownames(k21),gene2biotype$id)]  
 k21$biotype = gene2biotype$biotype[match(rownames(k21),gene2biotype$id)]  
-write.table(k21,file="de_SHAM_TAC.txt",sep="\t",quote=FALSE)  
-</code></pre>
+write.table(k21,file="de_SHAM_TAC.txt",sep="\t",quote=FALSE)  </code></pre>
 </section>
 <section id="output-of-single_edger.r" class="level3">
 <h3 class="anchored" data-anchor-id="output-of-single_edger.r">Output of single_edgeR.r</h3>
@@ -466,11 +465,11 @@ GSEA analysis takes the logFC / test statistics / pvalue from all the genes in t
 <p>Upregulated Pathways:</p>
 <table class="table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 61%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -550,11 +549,11 @@ GSEA analysis takes the logFC / test statistics / pvalue from all the genes in t
 <p>Downregulated Pathways:</p>
 <table class="table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 64%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -640,12 +639,12 @@ GSEA analysis takes the logFC / test statistics / pvalue from all the genes in t
 <p>Ontology terms enriched in up-regulated genes:</p>
 <table class="table">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 35%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -743,12 +742,12 @@ GSEA analysis takes the logFC / test statistics / pvalue from all the genes in t
 <p>Ontology terms enriched in down-regulated genes:</p>
 <table class="table">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 36%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">

@@ -2,6 +2,7 @@
 title: "Rnaseq pipeline"
 author: "Mick Lee and Wilson Tan" 
 ---
+
 Source files can be accessible at https://github.com/cjmlee/wilsonNGS/tree/master/RNAseq
 
 This pipeline will take in paired-end FASTQ files, and produce gene count as output.
@@ -213,7 +214,6 @@ k21 = as.data.frame(topTags(lrt21,n=10000000))
 k21$hgnc = gene2biotype$hgnc[match(rownames(k21),gene2biotype$id)]  
 k21$biotype = gene2biotype$biotype[match(rownames(k21),gene2biotype$id)]  
 write.table(k21,file="de_SHAM_TAC.txt",sep="\t",quote=FALSE)  
-
 ```
 
 ### Output of single_edgeR.r
@@ -238,14 +238,9 @@ The R script will generate a few output files.
 2.  Scatterplot (scatterplot_withtext_SHAM_TAC.png)\
     One of the plots that we can look at is scatterplot that represents the correlation between the two conditions (SHAM and TAC). The x-axis in the graph below shows average FPKM of SHAM cardiomyocytes and the y-axis shows average FPKM of TAC cardiomyocytes.
 
+3.  Unsupervised clustering based on DEGs\
 
-4.  Unsupervised clustering based on DEGs\
-
-
-
-5.  PCA analysis based on DEGs
-
-
+4.  PCA analysis based on DEGs
 
     <br />
 
@@ -266,7 +261,7 @@ GSEA analysis takes the logFC / test statistics / pvalue from all the genes in t
 Upregulated Pathways:
 
 | pathway                                        | pval |  padj  |   ES   |  NES   |
-|:--------------|:-------------:|:-------------:|:-------------:|:-------------:|
+|:-----------------------------------------------|:----:|:------:|:------:|:------:|
 | GO_COLLAGEN_TRIMER                             |  0   | 0.0079 | 0.8466 | 2.682  |
 | GO_EXTRACELLULAR_MATRIX_COMPONENT              |  0   | 0.0079 | 0.7538 | 2.6497 |
 | GO_PROTEINACEOUS_EXTRACELLULAR_MATRIX          |  0   | 0.0079 | 0.7161 | 2.6478 |
@@ -280,7 +275,7 @@ Upregulated Pathways:
 Downregulated Pathways:
 
 | pathway                                                 | pval |  padj  |   ES    |   NES   |
-|:--------------|:-------------:|:-------------:|:-------------:|:-------------:|
+|:--------------------------------------------------------|:----:|:------:|:-------:|:-------:|
 | GO_MITOCHONDRIAL_ATP_SYNTHESIS_COUPLED_PROTON_TRANSPORT |  0   | 0.0143 | -0.7478 | -2.3421 |
 | GO_PROTON_TRANSPORTING_ATP_SYNTHASE_COMPLEX             |  0   | 0.0148 | -0.6904 | -2.2669 |
 | GO_BRANCHED_CHAIN_AMINO_ACID_METABOLIC_PROCESS          |  0   | 0.0148 | -0.6333 | -2.0795 |
@@ -304,7 +299,7 @@ The list of differentially expressed genes will be supplied to check for enrichm
 Ontology terms enriched in up-regulated genes:
 
 |  category  | over_represented_pvalue | numDEInCat | numInCat |                 term                 | ontology |
-|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|:----------:|:-----------------------:|:----------:|:--------:|:------------------------------------:|:--------:|
 | GO_0030198 |  1.59289631513099e-29   |     58     |   165    |  extracellular matrix organization   |    BP    |
 | GO_0043062 |  7.25401577545077e-28   |     61     |   198    | extracellular structure organization |    BP    |
 | GO_0007155 |  7.52728027032633e-28   |    130     |   786    |            cell adhesion             |    BP    |
@@ -319,7 +314,7 @@ Ontology terms enriched in up-regulated genes:
 Ontology terms enriched in down-regulated genes:
 
 |  category  | over_represented_pvalue | numDEInCat | numInCat |                 term                  | ontology |
-|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|:----------:|:-----------------------:|:----------:|:--------:|:-------------------------------------:|:--------:|
 | GO_0044281 |  3.98227858592603e-08   |     71     |   1325   |   small molecule metabolic process    |    BP    |
 | GO_0006635 |  3.60003697030415e-07   |     11     |    58    |       fatty acid beta-oxidation       |    BP    |
 | GO_0016054 |  9.25408023716837e-07   |     17     |   154    |    organic acid catabolic process     |    BP    |

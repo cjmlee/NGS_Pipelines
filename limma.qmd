@@ -6,7 +6,9 @@ author: "Mick Lee"
 This page is to document an example of running mass-spectrometry (Non RNA-seq data) using the LIMMA R package. For more information, please refer to the user guide: https://bioconductor.org/packages/devel/bioc/vignettes/limma/inst/doc/usersguide.pdf
 
 ## **Getting Started:**
+
 Below is an example run for two sample analysis (Three biological replicates)
+
 ```{r}
 ###Install packages###
 require(ggplot2)
@@ -33,8 +35,11 @@ print(filelist)
 ms<-read.table("nash_ms.txt", header=TRUE)
 head(ms)
 ```
+
 ## **Perform transformation and normalization**
+
 Perform Log normalization with small offset, 4.08 is used because at 10% quantile - valued at 4.08
+
 ```{r}
 #log normalization
 ms<-log2(ms+4.08)
@@ -42,8 +47,11 @@ ms<-log2(ms+4.08)
 ###At 10% quantile 4.08 stabilizes the variance ###
 quantile(ms[ms>0], 0.1)
 ```
+
 ## **Define groups and Design matrix + Differential Testing**
+
 Define groups (in this case D37 vs NASH), design matrix, and fit contrasts between two groups for differential testing between two groups & fitting linear regression using limma
+
 ```{r}
 # Define the sample groups
 group <- factor(c(rep("D37", 3), rep("NASH", 3)))
@@ -65,11 +73,13 @@ fit2<- eBayes(fit, trend=TRUE)
 
 plotSA(fit2)
 ```
-::: {.callout-note}
+
+::: callout-note
 The above variance plot which show stabilization of the variances nicely as seen from the horizontal trendline from plotSA()
 :::
 
 ## **Extract, summarize the results and bind data**
+
 ```{r}
 # Extract and summarize the results
 result<-topTable(fit, coef = "NASHvsD37", number = nrow(ms))
@@ -82,18 +92,15 @@ head(NASHvsD37)
 
 ```
 
-::: {.callout-note}
-The logFC column is the slope of the regression line, and the AveExpr column is the average of the values for the protein row (same as rowMeans()). AveExpr can also be the y-intercept of the regression line when the predictor is mean-centered. The actual y-intercept is  
-**AveExpr−avg(AGE)⋅logFC**
- . The other columns are
-        **t** moderated t-statistic
-        **P.Value** p-value
-        **adj.P.Val** p-values adjusted with the Benjamini-Hocheberg procedure
-        **B** log-odds of differential expression
+::: callout-note
+The logFC column is the slope of the regression line, and the AveExpr column is the average of the values for the protein row (same as rowMeans()). AveExpr can also be the y-intercept of the regression line when the predictor is mean-centered. The actual y-intercept is\
+**AveExpr−avg(AGE)⋅logFC** . The other columns are **t** moderated t-statistic **P.Value** p-value **adj.P.Val** p-values adjusted with the Benjamini-Hocheberg procedure **B** log-odds of differential expression
 :::
 
 ## **Plot PCA**
+
 plot PCA of samples to show unsupervised clustering based on sample data
+
 ```{r}
 ###Z-scale data###
 
@@ -115,6 +122,7 @@ ggplot(pcadata,aes(x=PC1,y=PC2, label=group))+geom_point(aes(color=group),shape=
 ```
 
 ## **Plotting of Heatmap**
+
 Example plotting of heatmap to show relative expression levels using z-scaled transformed values
 
 ```{r}
@@ -124,6 +132,7 @@ par(mar=c(7,4,4,2)+0.1)
 heatmap.2(as.matrix(ms2),Colv=as.dendrogram(hc),Rowv=as.dendrogram(hr),scale="none",breaks=c(seq(-2,2,by=0.04)),col=colorRampPalette(c("blue","white","orange"))(100),density.info="none",trace="none",ColSideColors=as.character(filelist$colour), cexCol = 1.5, srtCol=45, # Add vertical grid lines
           )
 ```
+
 ## **Plotting of data using EnhancedVolcano plot**
 
 ```{r}
@@ -150,26 +159,18 @@ EnhancedVolcano(
 )
 
 ```
-::: {.callout-note}
-One could create a new data frame for labels and use `geom_label_repel` to add 
-an additional layer for labeling an example below:
 
-ev+geom_label_repel(
-  data = labels_df,
-  aes(x = x, y = -log10(y), label = label),
-  color = "black",
-  fill = "white",
-  segment.color = "black",
-  segment.size = 0.5, # Adjust label position as needed
-)
+::: callout-note
+One could create a new data frame for labels and use `geom_label_repel` to add an additional layer for labeling an example below:
+
+ev+geom_label_repel( data = labels_df, aes(x = x, y = -log10(y), label = label), color = "black", fill = "white", segment.color = "black", segment.size = 0.5, \# Adjust label position as needed )
 
 where ev is your aesthetics for ggplot/volcanoplot
-
 :::
 
-
 Session info as follows:
-```
+
+```         
 sessionInfo()
 R version 4.3.1 (2023-06-16 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -219,4 +220,4 @@ loaded via a namespace (and not attached):
 [85] dplyr_1.1.2                 gtable_0.3.3                EnhancedVolcano_1.18.0      digest_0.6.33              
 [89] BiocGenerics_0.46.0         ggrepel_0.9.3               rjson_0.2.21                memoise_2.0.1              
 [93] lifecycle_1.0.3             httr_1.4.6                  GO.db_3.17.0                bit64_4.0.5
-``` 
+```
