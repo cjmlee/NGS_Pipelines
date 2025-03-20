@@ -18,7 +18,7 @@ website:
             href: http://13.214.207.18:3000/login
       - text: In-house Data
         menu: 
-          - text: In-house Cardiac Cell-Type Specific Epigenetic Tracks(WashU Browser)
+          - text: In-house Cardiac Cell-Type Epigenetic Tracks (WashU Browser)
             href: https://tinyurl.com/foo2025
           - text: In-house H3K27ac Human Left Ventricle(UCSC)
             href: https://genome.ucsc.edu/s/cjmlee/hg19_H3K27Ac_LV
