@@ -148,8 +148,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-in-house-data">    
         <li>
-    <a class="dropdown-item" href="https://tiny.one/2p985dak" rel="" target="">
- <span class="dropdown-text">In-house Cardiac Cell-Type Specific Epigenetic Tracks(WashU Browser)</span></a>
+    <a class="dropdown-item" href="https://tinyurl.com/foo2025" rel="" target="">
+ <span class="dropdown-text">In-house Cardiac Cell-Type Epigenetic Tracks (WashU Browser)</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="https://genome.ucsc.edu/s/cjmlee/hg19_H3K27Ac_LV" rel="" target="">
@@ -238,9 +238,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: ggplot2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gplots)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gplots)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: gplots</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gplots' was built under R version 4.3.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -251,34 +257,37 @@ Attaching package: 'gplots'</code></pre>
 
     lowess</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(RColorBrewer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(RColorBrewer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: RColorBrewer</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: scales</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(limma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'scales' was built under R version 4.3.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(limma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: limma</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(qvalue)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(qvalue)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: qvalue</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">###Set Directory###</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Mick Lee/Desktop/smart_nus"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">##set metadata##</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>filelist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">c</span>(<span class="st">"D37_CN1"</span>, <span class="st">"D37_CN2"</span>, <span class="st">"D37_CN3"</span>, <span class="st">"NASH1"</span>, <span class="st">"NASH2"</span>, <span class="st">"NASH3"</span>),</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>),</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">colour =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(filelist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="do">###Set Directory###</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Mick Lee/Desktop/smart_nus"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="do">##set metadata##</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>filelist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">c</span>(<span class="st">"D37_CN1"</span>, <span class="st">"D37_CN2"</span>, <span class="st">"D37_CN3"</span>, <span class="st">"NASH1"</span>, <span class="st">"NASH2"</span>, <span class="st">"NASH3"</span>),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">colour =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>, <span class="st">"red"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(filelist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   sample group colour
 1 D37_CN1   D37   blue
@@ -288,9 +297,9 @@ Attaching package: 'gplots'</code></pre>
 5   NASH2  NASH    red
 6   NASH3  NASH    red</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Example of the Mass-spec data (Relative AUC from Peaks measured)##</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ms<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"nash_ms.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Example of the Mass-spec data (Relative AUC from Peaks measured)##</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ms<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"nash_ms.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           D37_CN1  D37_CN2  D37_CN3    NASH1    NASH2    NASH3
 D          1221.72   924.08   782.72   362.94   513.60   636.60
@@ -306,11 +315,11 @@ acp3U      1130.82   857.09   756.30   314.65   437.89   581.46</code></pre>
 <h2 class="anchored" data-anchor-id="perform-transformation-and-normalization"><strong>Perform transformation and normalization</strong></h2>
 <p>Perform Log normalization with small offset, 4.08 is used because at 10% quantile - valued at 4.08</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#log normalization</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ms<span class="ot">&lt;-</span><span class="fu">log2</span>(ms<span class="fl">+4.08</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#FOR NASH group</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="do">###At 10% quantile 4.08 stabilizes the variance </span><span class="al">###</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(ms[ms<span class="sc">&gt;</span><span class="dv">0</span>], <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#log normalization</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ms<span class="ot">&lt;-</span><span class="fu">log2</span>(ms<span class="fl">+4.08</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#FOR NASH group</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="do">###At 10% quantile 4.08 stabilizes the variance </span><span class="al">###</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(ms[ms<span class="sc">&gt;</span><span class="dv">0</span>], <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     10% 
 4.393376 </code></pre>
@@ -321,25 +330,25 @@ acp3U      1130.82   857.09   756.30   314.65   437.89   581.46</code></pre>
 <h2 class="anchored" data-anchor-id="define-groups-and-design-matrix-differential-testing"><strong>Define groups and Design matrix + Differential Testing</strong></h2>
 <p>Define groups (in this case D37 vs NASH), design matrix, and fit contrasts between two groups for differential testing between two groups &amp; fitting linear regression using limma</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the sample groups</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"D37"</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"NASH"</span>, <span class="dv">3</span>)))</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the design matrix</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span><span class="dv">0</span> <span class="sc">+</span> group)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define contrasts (comparing NASH with D37)</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>contrast.matrix <span class="ot">&lt;-</span> <span class="fu">makeContrasts</span>(</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">NASHvsD37 =</span> groupNASH <span class="sc">-</span> groupD37,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> design</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform differential expression analysis using limma</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(ms, design)</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">contrasts.fit</span>(fit, contrast.matrix)</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>fit2<span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit, <span class="at">trend=</span><span class="cn">TRUE</span>)</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plotSA</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the sample groups</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"D37"</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"NASH"</span>, <span class="dv">3</span>)))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the design matrix</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span><span class="dv">0</span> <span class="sc">+</span> group)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define contrasts (comparing NASH with D37)</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>contrast.matrix <span class="ot">&lt;-</span> <span class="fu">makeContrasts</span>(</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">NASHvsD37 =</span> groupNASH <span class="sc">-</span> groupD37,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> design</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform differential expression analysis using limma</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(ms, design)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">contrasts.fit</span>(fit, contrast.matrix)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>fit2<span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit, <span class="at">trend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plotSA</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="limma_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -361,14 +370,14 @@ Note
 <section id="extract-summarize-the-results-and-bind-data" class="level2">
 <h2 class="anchored" data-anchor-id="extract-summarize-the-results-and-bind-data"><strong>Extract, summarize the results and bind data</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract and summarize the results</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>result<span class="ot">&lt;-</span><span class="fu">topTable</span>(fit, <span class="at">coef =</span> <span class="st">"NASHvsD37"</span>, <span class="at">number =</span> <span class="fu">nrow</span>(ms))</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#merge result with ms</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>NASHvsD37<span class="ot">&lt;-</span><span class="fu">cbind</span>(ms,result)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>NASHvsD37<span class="sc">$</span>sig<span class="ot">=</span>NASHvsD37<span class="sc">$</span>adj.P.Val<span class="sc">&lt;</span><span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(NASHvsD37<span class="sc">$</span>logFC)<span class="sc">&gt;=</span><span class="fl">0.5</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(NASHvsD37)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract and summarize the results</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>result<span class="ot">&lt;-</span><span class="fu">topTable</span>(fit, <span class="at">coef =</span> <span class="st">"NASHvsD37"</span>, <span class="at">number =</span> <span class="fu">nrow</span>(ms))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#merge result with ms</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>NASHvsD37<span class="ot">&lt;-</span><span class="fu">cbind</span>(ms,result)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>NASHvsD37<span class="sc">$</span>sig<span class="ot">=</span>NASHvsD37<span class="sc">$</span>adj.P.Val<span class="sc">&lt;</span><span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(NASHvsD37<span class="sc">$</span>logFC)<span class="sc">&gt;=</span><span class="fl">0.5</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(NASHvsD37)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            D37_CN1   D37_CN2   D37_CN3     NASH1     NASH2     NASH3
 D         10.259508  9.858230  9.619853  8.519715  9.015917  9.323460
@@ -412,25 +421,25 @@ Note
 <h2 class="anchored" data-anchor-id="plot-pca"><strong>Plot PCA</strong></h2>
 <p>plot PCA of samples to show unsupervised clustering based on sample data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Z-scale data###</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>ms2 <span class="ot">=</span> (ms<span class="sc">-</span><span class="fu">rowMeans</span>(ms))<span class="sc">/</span><span class="fu">apply</span>(ms,<span class="dv">1</span>,sd)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">=</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(ms2),<span class="at">scale=</span><span class="cn">TRUE</span>,<span class="at">center=</span><span class="cn">TRUE</span>)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>eigs <span class="ot">&lt;-</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>percentage_explained <span class="ot">=</span> eigs<span class="sc">/</span><span class="fu">sum</span>(eigs)<span class="sc">*</span><span class="dv">100</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>percentage_explained</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Z-scale data###</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>ms2 <span class="ot">=</span> (ms<span class="sc">-</span><span class="fu">rowMeans</span>(ms))<span class="sc">/</span><span class="fu">apply</span>(ms,<span class="dv">1</span>,sd)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">=</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(ms2),<span class="at">scale=</span><span class="cn">TRUE</span>,<span class="at">center=</span><span class="cn">TRUE</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>eigs <span class="ot">&lt;-</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>percentage_explained <span class="ot">=</span> eigs<span class="sc">/</span><span class="fu">sum</span>(eigs)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>percentage_explained</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8.479417e+01 7.243287e+00 3.892483e+00 2.987105e+00 1.082954e+00
 [6] 3.207613e-31</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pcadata <span class="ot">=</span> <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>x)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>pcadata<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>pcaxl <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"PC1("</span>,<span class="fu">format</span>(<span class="fu">round</span>(percentage_explained[<span class="dv">1</span>],<span class="dv">2</span>),<span class="dv">2</span>),<span class="st">"%)"</span>,<span class="at">sep=</span><span class="st">""</span>)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>pcayl <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"PC2("</span>,<span class="fu">format</span>(<span class="fu">round</span>(percentage_explained[<span class="dv">2</span>],<span class="dv">2</span>),<span class="dv">2</span>),<span class="st">"%)"</span>,<span class="at">sep=</span><span class="st">""</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pcadata,<span class="fu">aes</span>(<span class="at">x=</span>PC1,<span class="at">y=</span>PC2, <span class="at">label=</span>group))<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>group),<span class="at">shape=</span><span class="dv">18</span>,<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>())<span class="sc">+</span><span class="fu">xlab</span>(pcaxl)<span class="sc">+</span><span class="fu">ylab</span>(pcayl)<span class="sc">+</span><span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"blue"</span>,<span class="st">"red"</span>))<span class="sc">+</span><span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span><span class="fu">rownames</span>(pcadata)),<span class="at">hjust=</span><span class="dv">0</span>, <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pcadata <span class="ot">=</span> <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>x)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>pcadata<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"D37"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>, <span class="st">"NASH"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>pcaxl <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"PC1("</span>,<span class="fu">format</span>(<span class="fu">round</span>(percentage_explained[<span class="dv">1</span>],<span class="dv">2</span>),<span class="dv">2</span>),<span class="st">"%)"</span>,<span class="at">sep=</span><span class="st">""</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>pcayl <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"PC2("</span>,<span class="fu">format</span>(<span class="fu">round</span>(percentage_explained[<span class="dv">2</span>],<span class="dv">2</span>),<span class="dv">2</span>),<span class="st">"%)"</span>,<span class="at">sep=</span><span class="st">""</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pcadata,<span class="fu">aes</span>(<span class="at">x=</span>PC1,<span class="at">y=</span>PC2, <span class="at">label=</span>group))<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>group),<span class="at">shape=</span><span class="dv">18</span>,<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>())<span class="sc">+</span><span class="fu">xlab</span>(pcaxl)<span class="sc">+</span><span class="fu">ylab</span>(pcayl)<span class="sc">+</span><span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"blue"</span>,<span class="st">"red"</span>))<span class="sc">+</span><span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span><span class="fu">rownames</span>(pcadata)),<span class="at">hjust=</span><span class="dv">0</span>, <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="limma_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -440,11 +449,11 @@ Note
 <h2 class="anchored" data-anchor-id="plotting-of-heatmap"><strong>Plotting of Heatmap</strong></h2>
 <p>Example plotting of heatmap to show relative expression levels using z-scaled transformed values</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">=</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(ms2,<span class="at">method=</span><span class="st">"spearman"</span>)),<span class="at">method=</span><span class="st">"ward.D2"</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>hr <span class="ot">=</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(ms2),<span class="at">method=</span><span class="st">"pearson"</span>)),<span class="at">method=</span><span class="st">"ward.D2"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>)<span class="sc">+</span><span class="fl">0.1</span>) </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap.2</span>(<span class="fu">as.matrix</span>(ms2),<span class="at">Colv=</span><span class="fu">as.dendrogram</span>(hc),<span class="at">Rowv=</span><span class="fu">as.dendrogram</span>(hr),<span class="at">scale=</span><span class="st">"none"</span>,<span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">by=</span><span class="fl">0.04</span>)),<span class="at">col=</span><span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"blue"</span>,<span class="st">"white"</span>,<span class="st">"orange"</span>))(<span class="dv">100</span>),<span class="at">density.info=</span><span class="st">"none"</span>,<span class="at">trace=</span><span class="st">"none"</span>,<span class="at">ColSideColors=</span><span class="fu">as.character</span>(filelist<span class="sc">$</span>colour), <span class="at">cexCol =</span> <span class="fl">1.5</span>, <span class="at">srtCol=</span><span class="dv">45</span>, <span class="co"># Add vertical grid lines</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">=</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(ms2,<span class="at">method=</span><span class="st">"spearman"</span>)),<span class="at">method=</span><span class="st">"ward.D2"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>hr <span class="ot">=</span> <span class="fu">hclust</span>(<span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(ms2),<span class="at">method=</span><span class="st">"pearson"</span>)),<span class="at">method=</span><span class="st">"ward.D2"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>)<span class="sc">+</span><span class="fl">0.1</span>) </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap.2</span>(<span class="fu">as.matrix</span>(ms2),<span class="at">Colv=</span><span class="fu">as.dendrogram</span>(hc),<span class="at">Rowv=</span><span class="fu">as.dendrogram</span>(hr),<span class="at">scale=</span><span class="st">"none"</span>,<span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">by=</span><span class="fl">0.04</span>)),<span class="at">col=</span><span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"blue"</span>,<span class="st">"white"</span>,<span class="st">"orange"</span>))(<span class="dv">100</span>),<span class="at">density.info=</span><span class="st">"none"</span>,<span class="at">trace=</span><span class="st">"none"</span>,<span class="at">ColSideColors=</span><span class="fu">as.character</span>(filelist<span class="sc">$</span>colour), <span class="at">cexCol =</span> <span class="fl">1.5</span>, <span class="at">srtCol=</span><span class="dv">45</span>, <span class="co"># Add vertical grid lines</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="limma_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -453,31 +462,34 @@ Note
 <section id="plotting-of-data-using-enhancedvolcano-plot" class="level2">
 <h2 class="anchored" data-anchor-id="plotting-of-data-using-enhancedvolcano-plot"><strong>Plotting of data using EnhancedVolcano plot</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(EnhancedVolcano)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(EnhancedVolcano)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: EnhancedVolcano</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: ggrepel</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ymax <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="sc">-</span><span class="fu">log10</span>(NASHvsD37[, <span class="st">"adj.P.Val"</span>,]), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">EnhancedVolcano</span>(</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  NASHvsD37,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lab =</span> <span class="fu">rownames</span>(NASHvsD37),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">'logFC'</span>,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">'adj.P.Val'</span>,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Significant RNA Epi-Modifications"</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtitle =</span> <span class="st">"NASH vs D37 CMs"</span>,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>),  <span class="co"># Example xlim, adjust as needed</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, ymax <span class="sc">+</span> <span class="fl">1.0</span>),</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">FCcutoff =</span> <span class="fl">0.5</span>,      <span class="co"># Example FCcutoff, adjust as needed</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">pCutoff =</span> <span class="fl">0.05</span>,    <span class="co"># Example pCutoff, adjust as needed</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendLabels =</span> <span class="fu">c</span>(<span class="st">'NS'</span>, <span class="st">'Log2 Fold-change'</span>, <span class="st">'P value'</span>, <span class="st">'P value &amp; Log2 Fold-change'</span>),</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendPosition =</span> <span class="st">'bottom'</span>,</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendLabSize =</span> <span class="dv">10</span>,</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendIconSize =</span> <span class="fl">5.0</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggrepel' was built under R version 4.3.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ymax <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="sc">-</span><span class="fu">log10</span>(NASHvsD37[, <span class="st">"adj.P.Val"</span>,]), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">EnhancedVolcano</span>(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  NASHvsD37,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lab =</span> <span class="fu">rownames</span>(NASHvsD37),</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">'logFC'</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">'adj.P.Val'</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Significant RNA Epi-Modifications"</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtitle =</span> <span class="st">"NASH vs D37 CMs"</span>,</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>),  <span class="co"># Example xlim, adjust as needed</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, ymax <span class="sc">+</span> <span class="fl">1.0</span>),</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">FCcutoff =</span> <span class="fl">0.5</span>,      <span class="co"># Example FCcutoff, adjust as needed</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">pCutoff =</span> <span class="fl">0.05</span>,    <span class="co"># Example pCutoff, adjust as needed</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendLabels =</span> <span class="fu">c</span>(<span class="st">'NS'</span>, <span class="st">'Log2 Fold-change'</span>, <span class="st">'P value'</span>, <span class="st">'P value &amp; Log2 Fold-change'</span>),</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendPosition =</span> <span class="st">'bottom'</span>,</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendLabSize =</span> <span class="dv">10</span>,</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">legendIconSize =</span> <span class="fl">5.0</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="limma_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="384"></p>
 </div>
