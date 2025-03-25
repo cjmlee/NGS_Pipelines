@@ -18,6 +18,9 @@ website:
             href: http://13.214.207.18:3000/login
           - text: sgRNAapp Primer Design
             href: https://micklee.shinyapps.io/sgrnaapp/
+          - text: Foo Lab Cell Line Explorer
+            href: https://micklee.shinyapps.io/celllines/
+            
             
       - text: In-house Data
         menu: 
